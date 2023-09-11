@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    height: 100vh;
+    width: 100vw;
+}
+.login {
+    height: 500px;
+    width: 500px;
+    background: grey;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    font-family: monospace;
+}
+.login-title {
+    color: black;
+    font-size: 30px;
+
+}
+.user {
+    height: 30px;
+}
+.pass {
+    height: 30px;
+}
+.events {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0, 0, 0);
+    display: none;
+}
+.card {
+    height: 300px;
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(52, 52, 52);
+    margin: 20px;
+}
+.card-img {
+    height: 50%;
+    width: 100%;
+    background-color: rgb(122, 42, 165);
+}
+.card-title {
+    height: 25%;
+    width: 100%;
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.card-btn {
+    height: 25%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.new {
+    position: absolute;
+    color: rgb(255, 171, 188);
+    height: 100px;
+    width: 100px;
+    background-color: rgb(255, 9, 107);
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 20px;
+    bottom: 20px;
+    display: none;
+    z-index: 3;
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.gen {
+    position: absolute;
+    z-index: 4;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    width: 100vw;
+    height: 100vh;
+}
+.gen-card {
+    height: 500px;
+    width: 500px;
+    background: grey;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    font-family: monospace;
+}
+</style>
+</head>
+<body>
+    <div class="login">
+        <div class="login-title">Login</div>
+        <input id="user" type="text" class="user" placeholder="username">
+        <input id="pass" type="text" class="pass" placeholder="password">
+        <button onclick="f1()" class="submit">Submit</button>
+    </div>
+    <div class="events" id="events">
+        <div class="card">
+            <div class="card-img"></div>
+            <div class="card-title">Title</div>
+            <button class="card-btn" onclick="enroll()" id="testcard">Enroll</button>
+        </div>
+    </div>
+    <div onclick="show()" class="new" id="new">+</div>
+    <div class="gen" id="gen">
+        <div class="gen-card">
+            <div class="login-title">Create new event</div>
+            <input id="gen-title" type="text" class="user" placeholder="title">
+            <button onclick="gen()" class="submit">Submit</button>
+        </div>
+    </div>
+<script>
+function f1() {
+    var adm = JSON.parse(localStorage.getItem('admin'))
+    var user = document.getElementById('user').value
+    var pass = document.getElementById('pass').value
+    if(localStorage.getItem(user)==null) {
+        alert('user does not exist')
+    }
+    else {
+        if (pass == localStorage.getItem(user)) {
+            if (adm.includes(user)) {
+                document.getElementById("events").style.display = "flex";
+                document.getElementById("new").style.display = "flex";
+            }
+            else {
+                document.getElementById("events").style.display = "flex";
+            }
+        }
+    }
+
+}
+function enroll() {
+    var enrolled = JSON.parse(localStorage.getItem(String(event.srcElement.id)))
+    if(enrolled.includes(user)){
+        alert('already enrolled')
+    }
+    else {
+        enrolled.push(user)
+        localStorage.setItem(String(event.srcElement.id), JSON.stringify(enrolled))
+    }
+}
+function show() {
+    document.getElementById('gen').style.display = 'flex';
+}
+function gen() {
+    var title = document.getElementById('gen-title').value
+    if(localStorage.getItem(title)==null) {
+        var enrolled = []
+        enrolled.push(user)
+        localStorage.setItem(title,JSON.stringify(enrolled))
+        var evs = JSON.parse(localStorage.getItem('evs'))
+        evs.push(title)
+    }
+    else {
+        alert('event already exists')
+    }
+}
+function cards() {
+    var evs = JSON.parse(localStorage.getItem('evs'))
+    evs.forEach(f2)
+    function f2(value) {
+        const a = document.createElement('div')
+        a.className="card"
+        const b = document.createElement('div')
+        b.className="card-img"
+        const c = document.createElement('div')
+        c.innerText = value
+        c.className='card-title'
+        const d = document.createElement('button')
+        d.id = value
+        d.className = "card-btn"
+        d.onclick = enroll()
+        a.appendChild(b)
+        a.appendChild(c)
+        a.appendChild(d)
+    }
+}
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    height: 100vh;
+    width: 100vw;
+}
+.login {
+    height: 500px;
+    width: 500px;
+    background: grey;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    font-family: monospace;
+}
+.login-title {
+    color: black;
+    font-size: 30px;
+
+}
+.user {
+    height: 30px;
+}
+.pass {
+    height: 30px;
+}
+</style>
+</head>
+<body>
+    <div class="login">
+        <div class="login-title">Sign up</div>
+        <input id="user" type="text" class="user" placeholder="username">
+        <input id="pass" type="text" class="pass" placeholder="password">
+        <button onclick="f1()" class="submit">Submit</button>
+    </div>
+
+<script>
+function f1() {
+    var user = document.getElementById('user').value
+    var pass = document.getElementById('pass').value
+    // alert(user + pass)
+    if(localStorage.getItem(user)==null) {
+        localStorage.setItem(user,pass)
+        alert('id created')
+    }
+    else {
+        alert("user already exists")
+    }
+}
+</script>
+</body>
+</html>
